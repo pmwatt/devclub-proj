@@ -50,3 +50,5 @@ const users = [
         sec: '1'
     }
 ]
+
+export { users };

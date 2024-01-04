@@ -89,3 +89,5 @@ const exams = [
     },
 ]
 //0: string answer, 1: 4 multiple choice, 2: true-false, 3: select, 4: multiple selection
+
+export { exams };
