@@ -15,16 +15,16 @@ export default function Success({ params }: {
         user.id.toString() === params.slug)
     return (
         <>
-            <Box className='text-center'>
+            <Box className='text-center flex flex-col items-center'>
                 <Image
                     borderRadius='full'
                     boxSize='200px'
-                    src='https://firebasestorage.googleapis.com/v0/b/storage1-15612.appspot.com/o/IMG_2906.jpeg?alt=media&token=46d7132e-13d9-4a3a-9d16-67ff46ec5437'
+                    src={userDetails?.imgsrc}
                     alt='profile pic'
                 />
                 <p>Login as</p>
                 <h1>{userDetails?.fname} {userDetails?.sname}</h1>
-                <div className='flex'>
+                <div className='flex justify-center'>
                     <Link href='/'>View Exams</Link>
                     <Link href={`/account/${params.slug}`}>View Account</Link>
                 </div>
