@@ -83,7 +83,7 @@ export default function Question({ params }: {
                         <Stack direction='column'>
                             {
                                 question.options.map((option, index) => (
-                                    <Radio onChange={handleChange} value={`${index}`}>{option}</Radio>
+                                    <Radio key={`${index}`} onChange={handleChange} value={`${index}`}>{option}</Radio>
                                 ))
                             }
                         </Stack>
@@ -105,7 +105,7 @@ export default function Question({ params }: {
                     <Select placeholder='Select option' name='ansSelectOne'  onChange={handleChangeSelect}>
                         {
                             question.options.map((option, index) => (
-                                <option value={`${index}`}>{option}</option>
+                                <option  key={`${index}`}value={`${index}`}>{option}</option>
                             ))
                         }
                     </Select>
