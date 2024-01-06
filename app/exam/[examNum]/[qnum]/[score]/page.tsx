@@ -20,15 +20,21 @@ export default function Question({ params }: {
         score: number
     }
 }) {
-    const router = useRouter(); // for navigating to new pages
+
+    // for navigating to new pages
+    const router = useRouter();
+
+    // useful variables
     const exam = exams[params.examNum]
     const question = exam.questions[params.qnum]
 
-    // set states, ugly atm
+    // set states, ugly af
     const [answer, setAnswer] = React.useState({
         ansText: '', // type 0
         ansMultipleChoice: '', // type 1
         ansTrueFalse: '', // type 2
+    })
+    const [answerSelect, setAnswerSelect] = React.useState({
         ansSelectOne: '', // type 3
     })
 
@@ -40,56 +46,77 @@ export default function Question({ params }: {
             ...answer,
             [e.target.name]: e.target.value
         })
-        // for debug
-        // console.log(answer)
     }
 
-    function renderAnswer(questionType: number) {
+    // based on errors for type 3
+    // cannot use handleChange normally for select option element
+    // need to use "HTMLSelectElement" instead of "HTMLInputElement"
+    const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setAnswerSelect({
+            ...answerSelect,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAnswer({
+            ...answer,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    function renderAnswer() {
         let answerElement;
-        switch (questionType) {
+        switch (question.type) {
             case 0: // string answer
                 answerElement = (
                     <Input
-                        value={answer.ansText}
+                        name='ansText'
                         onChange={handleChange}
-                        placeholder='large size'
+                        placeholder='Enter your answer'
                         size='lg' />
                 )
                 break;
-            case 1: // 4 multiple choices
+            case 1: // multiple choices
                 answerElement = (
-                    <RadioGroup value={answer.ansMultipleChoice} onSelect={handleChange}>
+                    <RadioGroup name='ansMultipleChoice' >
                         <Stack direction='column'>
-                            <Radio value='1'>First</Radio>
-                            <Radio value='2'>Second</Radio>
-                            <Radio value='3'>Third</Radio>
+                            {
+                                question.options.map((option, index) => (
+                                    <Radio onChange={handleChange} value={`${index}`}>{option}</Radio>
+                                ))
+                            }
                         </Stack>
                     </RadioGroup>
                 )
                 break;
             case 2: // T/F
                 answerElement = (
-                    <Select placeholder='Select option'>
-                        <option value='option1'>Option 1</option>
-                        <option value='option2'>Option 2</option>
-                    </Select>
+                    <RadioGroup name='ansTrueFalse'>
+                        <Stack direction='column'>
+                            <Radio onChange={handleChange} value='1'>True</Radio>
+                            <Radio onChange={handleChange} value='0'>False</Radio>
+                        </Stack>
+                    </RadioGroup>
                 )
                 break;
             case 3: // select 1 (isn't this just multiple choice?)
                 answerElement = (
-                    <Select placeholder='Select option'>
-                        <option value='option1'>Option 1</option>
-                        <option value='option2'>Option 2</option>
-                        <option value='option3'>Option 3</option>
+                    <Select placeholder='Select option' name='ansSelectOne'  onChange={handleChangeSelect}>
+                        {
+                            question.options.map((option, index) => (
+                                <option value={`${index}`}>{option}</option>
+                            ))
+                        }
                     </Select>
                 )
                 break;
             // case 4: // multiple selection
             //     break;
             default:
-                console.log('renderAnswer(' + questionType + '): unsupported question type')
+                console.log('renderAnswer(' + question.type + '): unsupported question type')
                 answerElement = (
-                    <h1>Unsupported question type: {questionType}</h1>
+                    <h1>Unsupported question type: {question.type}</h1>
                 )
         }
         return answerElement;
@@ -108,6 +135,8 @@ export default function Question({ params }: {
                     answer.ansText === solution.toString())
                 break;
             case 1: // multiple choice: exact match
+                console.log(solutions)
+                console.log(answer)
                 matchedAnswer = solutions.find((solution) =>
                     answer.ansMultipleChoice === solution.toString())
                 break;
@@ -117,7 +146,7 @@ export default function Question({ params }: {
                 break;
             case 3: // select 1: exact match
                 matchedAnswer = solutions.find((solution) =>
-                    answer.ansSelectOne === solution.toString())
+                    answerSelect.ansSelectOne === solution.toString())
                 break;
             default:
                 console.log('checkAnswer(): unsupported question type')
@@ -132,8 +161,8 @@ export default function Question({ params }: {
 
         // update score ugly mode
         let score = (correct) ?
-            Number(params.score) : // wrong
-            Number(params.score) + Number(question.score) // correct
+            Number(params.score) + Number(question.score) : // correct
+            Number(params.score) // wrong
 
         // route to next question
         router.push(`/exam/${Number(params.examNum)}/${Number(params.qnum) + 1}/${Number(score)}`)
@@ -174,14 +203,13 @@ export default function Question({ params }: {
 
     // otherwise, render question page
     else {
+        const answerElement = renderAnswer();
         return (
             <>
                 <h1>Question {Number(params.qnum) + 1}</h1>
                 <h2>{Number(question.score)} point(s) possible</h2>
                 <h2>{question.question}</h2>
-                {
-                    renderAnswer(Number(question.type))
-                }
+                {answerElement}
                 <Button onClick={handleQuestionSubmission}>{(remainingQuestionsCount == 1) ? "Submit" : "Next"}</Button>
             </>
         )
