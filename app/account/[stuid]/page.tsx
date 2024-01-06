@@ -8,12 +8,12 @@ import { users } from '../../data/users';
 
 export default function Account({ params }: {
     params: {
-        slug: string,
+        stuid: string,
     }
 }) {
     // ooga booga lazy method: this just search for fname and lname again
     const userDetails = users.find((user) =>
-        user.id.toString() === params.slug)
+        user.id.toString() === params.stuid)
     return (
         <>
             <Box className='text-center flex flex-col items-center'>
@@ -23,6 +23,7 @@ export default function Account({ params }: {
                     src={userDetails?.imgsrc}
                     alt='profile pic'
                 />
+                <h1>{userDetails?.fname} {userDetails?.sname}</h1>
                 <h2>tel: {userDetails?.tel}</h2>
                 <h2>Year: {userDetails?.year}</h2>
                 <h2>Section: {userDetails?.sec}</h2>

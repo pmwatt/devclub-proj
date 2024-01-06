@@ -15,7 +15,15 @@ import { users } from '../data/users';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
-    const router = useRouter();
+    const router = useRouter(); // for navigating to new pages
+    const [show, setShow] = React.useState(false) // for toggling show/hide password
+    const [loginDetails, setLoginDetails] = React.useState({
+        stuid: '',
+        pwd: ''
+    })
+
+    // reference:
+    // https://stackoverflow.com/questions/70043668/react-typescript-input-onchange-event-type
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // for handling form input changes
         setLoginDetails({
@@ -38,11 +46,6 @@ export default function Login() {
         }
     }
 
-    const [show, setShow] = React.useState(false)
-    const [loginDetails, setLoginDetails] = React.useState({
-        stuid: '',
-        pwd: ''
-    })
     const handleClick = () => setShow(!show)
     return (
         <>
