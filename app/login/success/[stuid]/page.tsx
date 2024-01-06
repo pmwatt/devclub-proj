@@ -24,7 +24,7 @@ export default function Success({ params }: {
                 />
                 <p>Login as</p>
                 <h1>{userDetails?.fname} {userDetails?.sname}</h1>
-                <div className='flex justify-center'>
+                <div className='flex justify-center gap-5'>
                     <Link href='/'>View Exams</Link>
                     <Link href={`/account/${params.stuid}`}>View Account</Link>
                 </div>

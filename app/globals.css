@@ -35,3 +35,18 @@ h1 {
   font-weight: bolder;
   padding: 20px;
 }
+
+h2 {
+  font-size: large;
+}
+
+h3 {
+  font-size: medium;
+  font-weight: bolder;
+  padding: 20px;
+}
+
+a {
+  font-size: x-large;
+  padding: 20px;
+}

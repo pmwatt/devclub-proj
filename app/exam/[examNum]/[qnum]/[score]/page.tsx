@@ -183,13 +183,13 @@ export default function Question({ params }: {
             <>
                 <h1>{exam.name}</h1>
                 <h2>Instructor: {exam.instructor}</h2>
-                <div className='flex'>
+                <div className='flex items-center p-10'>
                     <h2>Result:</h2>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col items-center'>
                         <h3>{params.score}/{totalScore}</h3>
                         <p>Score</p>
                     </div>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col items-center'>
                         <h3>{scorePercentage}/100</h3>
                         <p>Percentage</p>
                     </div>

@@ -46,6 +46,7 @@ export default function Login() {
         }
     }
 
+    // from chakra ui docs
     const handleClick = () => setShow(!show)
     return (
         <>
