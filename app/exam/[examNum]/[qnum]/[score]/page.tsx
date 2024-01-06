@@ -205,13 +205,13 @@ export default function Question({ params }: {
     else {
         const answerElement = renderAnswer();
         return (
-            <>
+            <div className='flex flex-col gap-4'>
                 <h1>Question {Number(params.qnum) + 1}</h1>
                 <h2>{Number(question.score)} point(s) possible</h2>
                 <h2>{question.question}</h2>
                 {answerElement}
                 <Button onClick={handleQuestionSubmission}>{(remainingQuestionsCount == 1) ? "Submit" : "Next"}</Button>
-            </>
+            </div>
         )
 
     }
